@@ -1,0 +1,73 @@
+
+@namespace("com.safetytrick.sql.avro")
+protocol SqlExplorer {
+
+	record SqlProfile {
+		string id;
+		string query;
+		array<TableReference> tables;
+		string type;
+		array<JoinColumns> joinColumns;
+		array<ColumnReference> criteriaColumns;
+		string generatedSource;
+		boolean truncated;
+		boolean analysisFailed;
+		boolean analysisSkipped;
+		boolean isDml;
+		RuntimeMetrics? runtimeMetrics;
+		string digest;
+		string normalizedDigest;
+		string `schema`;
+		array<JoinColumns> mismatchedJoins = [];
+		int? lineNumber = null;
+		string? analysisFailureReason = "";
+		array<string> sourcedFiles;
+		QueryActivityStatus queryActivityStatus;
+		boolean modifiedForAnalysis;
+		boolean isMultiSchema;
+	}
+
+	enum QueryActivityStatus {
+		ACTIVE, DORMANT, UNKNOWN
+	}
+
+	record RuntimeMetrics {
+		boolean fullTableScan;
+		long executed;
+		long errors;
+		long warnings;
+		@java-class("java.math.BigDecimal") string totalTime;
+		@java-class("java.math.BigDecimal") string maxTime;
+		@java-class("java.math.BigDecimal") string averageTime;
+		long rowsSent;
+		long averageRowsSent;
+		long rowsScanned;
+		long averageRowsScanned;
+		long tempTables;
+		long tempDiskTables;
+		long rowsSorted;
+		long sortMergePasses;
+		string digest;
+		local_timestamp_ms lastSeen;
+		local_timestamp_ms firstSeen;
+		@java-class("java.math.BigDecimal") string lockTime;
+		long rowsAffected;
+		long averageRowsAffected;
+		array<string> digestList;
+	}
+
+	record ColumnReference {
+		TableReference table;
+		string column;
+	}
+
+	record JoinColumns {
+		ColumnReference left;
+		ColumnReference right;
+	}
+
+	record TableReference {
+		string `schema`;
+		string name;
+	}
+}
