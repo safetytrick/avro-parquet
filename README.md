@@ -1,0 +1,1 @@
+Scratch projec to read and write into a local parquet file.
